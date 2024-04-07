@@ -1,0 +1,116 @@
+body {
+    margin:0 ;
+    background-color: rgb(228, 201, 236);
+    font-family: 'Roboto', sans-serif;
+}
+
+.searchbox { 
+    display: flex;
+    gap: 10px;
+    margin: 10px auto auto 10px;
+
+}
+
+#input, .search {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+
+}
+
+#input {
+    padding-left: 10px;
+}
+#input:focus {
+    outline: none;
+}
+
+.search {
+    height: 20px;
+    width: 80px;
+    background-color: white;
+}
+
+.search:hover {
+    background-color: rgb(136, 131, 131);
+    color: rgb(233, 225, 225);
+}
+
+.search:active {
+    background-color: black;
+    color: white;
+}
+
+.unit-changer {
+    background-color: rgb(228, 201, 236);
+    border-radius: 20px;
+    border: none;
+}
+
+.unit-changer:hover {
+    background-color: rgb(161, 143, 167);
+}
+
+.unit-changer:active {
+    background-color: rgb(114, 96, 121);
+}
+
+.weather-card {
+    display: none;
+    background-color: rgb(228, 201, 236);
+    height: 200px;
+    width: 500px;
+    border-radius: 8px;
+    margin: 30px auto auto 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+header {
+    position: relative;
+    top: 10px;
+    left: 10px;
+}
+
+.condition {
+    font-size: 12px;
+}
+
+.place, .region, .country {
+    font-size: 20px;
+}
+
+.main-display {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    top: 30px;
+    left: 10px;
+}
+
+.temp {
+    font-size: 50px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.git-credit {
+    position: absolute;
+    height: 40px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-color: rgb(214, 130, 240);
+    color: black;
+    box-shadow: 0 0 5px rgb(86, 83, 83);
+    grid-row: 3/4;
+    grid-column: 1/3;
+}
