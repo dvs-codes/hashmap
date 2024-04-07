@@ -1,135 +1,75 @@
-class LinkedList {
- constructor() {
-  this.list = null
- }
+class HashMap{
+  constructor() {
+    this.table = []
+  }
 
-  append(value) {
-    if (this.list===null) {
-      this.list = new Node(value)
+  hash(key) {
+    let hashCode = 0
+    let hashSize = 16
+    const primeNumber = 31
+    for (let i=0; i< key.length; i++) {
+      hashCode = primeNumber* hashCode + key.charCodeAt(i)
+      hashCode %= hashSize
+    }
+
+    return hashCode 
+  }
+
+  set(key, value) {
+    let index = this.hash(key)
+    this.table[index] = new Node(value)
+  }
+
+  get(key) {
+    let index = this.hash(key)
+    if (this.table[index]) {
+      return this.table[index]
     } else {
-      let currentNode = this.list
-      while (currentNode.nextNode!==null) {
-        currentNode = currentNode.nextNode 
-      }
-      currentNode.nextNode = new Node(value)
+      return null
     }
   }
 
-  prepend(value) {
-    if (this.list===null) {
-      this.list = new Node(value)
-    } else {
-      this.list = new Node(value, this.list)
-    }
-  }
-
-  get size() {
-    let length = 0
-    let currentNode = this.list
-    if (currentNode===null) {
-      return length
-    } else  {
-      while (currentNode.nextNode!==null) {
-        currentNode =  currentNode.nextNode
-        length++
-      } return length+1
-    }
-  }
-
-  get head() {
-    return this.list
-  }
-
-  get tail() {
-    if (this.list.nextNode===null) {
-      return this.list
-    } else {
-      let currentNode = this.list
-      while (currentNode.nextNode!==null) {
-        currentNode = currentNode.nextNode
-      } return currentNode
-    }
-  }
-
-  at(index) {
-    let currentNode = this.list
-    for (let i=0; i<index;i++) {
-      currentNode = currentNode.nextNode
-    }
-    return currentNode
-  }
-
-  pop() {
-    let currentNode = this.list
-    while(currentNode.nextNode.nextNode!==null) {
-      currentNode = currentNode.nextNode
-    }
-    currentNode.nextNode = null 
-  }
-
-  contains(value) {
-    let currentNode=this.list
-    if (currentNode.value===value) {
+  has(key) {
+    let index = this.hash(key)
+    if (this.table[index]) {
       return true
     } else {
-      while(currentNode.nextNode!==null) {
-        if(currentNode.nextNode.value===value) {
-          return true
-        } 
-        currentNode = currentNode.nextNode
-      } return false
+      return false
     }
   }
 
-  find(value) {
-    let currentNode=this.list
-    let index = 0
-    if (currentNode.value===value) {
-      return index
+  remove(key) {
+    let index = this.hash(key)
+    if (this.table[index]) {
+      delete this.table[index]
+      return true
     } else {
-      index = 1
-      while(currentNode.nextNode!==null) {
-        if(currentNode.nextNode.value===value) {
-          return index
-        } 
-        index++
-        currentNode = currentNode.nextNode
-      } return null
+      return false
     }
   }
 
-  get toString() {
-    let currentNode = this.list
-    let stringedList = ''
-    if (this.list ===null) {
-      return `(null)`
-    } else {
-      while(currentNode.nextNode!==null) {
-        stringedList += `(${currentNode.value})->`
-        currentNode = currentNode.nextNode
-      }
-      return stringedList += `(${currentNode.value})-> null`
-    }
+  length() {
+    return this.table.length
+  }
+
+  clear() {
+    this.table = []
   }
 }
 
-class Node {
-  constructor(value = null, nextNode = null) {
-    this.value = value;
-    this.nextNode = nextNode;
+class Node{
+  constructor(value, nextNode=null) {
+    this.value = value
+    this.nextNode = nextNode
   }
 }
+let hashmap = new HashMap()
 
-let newList = new LinkedList()
+hashmap.set('carlos', "value1")
+hashmap.set('carlos', "value2")
+hashmap.set('carla', "n1")
+console.log(hashmap.get('john'))
+console.log(hashmap.get('carla'))
 
-newList.append('val1')
-newList.append('val2')
-newList.append('val3')
-newList.prepend('head')
-newList.append('val4')
-newList.append('tail')
-newList.append('tails2')
-newList.prepend('head2')
-
-console.log(newList)
-console.log(newList.toString)
+console.log(hashmap.table)
+console.log(hashmap.length())
