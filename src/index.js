@@ -101,12 +101,14 @@ class HashMap{
   length() {
     let length = 0
     if (this.table) {
-
       this.table.forEach(bucket => {
-        length++
-        while (bucket.nextNode!==null) {
+        //only count if bucket has value
+        if (bucket) {
           length++
-          bucket = bucket.nextNode
+          while (bucket.nextNode!==null) {
+            length++
+            bucket = bucket.nextNode
+          }
         }
       })
       return length
@@ -152,6 +154,7 @@ hashmap.set('q', "q2")
 // hashmap.remove('carsol')
 // console.log(hashmap.get('carsol'))
 console.log(hashmap.length())
-hashmap.clear()
+console.log(hashmap.remove('q'))
+console.log(hashmap.length())
 
 console.log(hashmap.table)
