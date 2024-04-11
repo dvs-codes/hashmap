@@ -17,30 +17,39 @@ class HashMap{
 
   set(key, value) {
     let index = this.hash(key)
-    //if table is not empty we check for content
-    if (this.table[index]) {
-      let currentNode = this.table[index]
-      // go deeper if keys dont match and also if nextNode is not null
-      while (Object.keys(currentNode)[0]!==key && currentNode.nextNode!==null) {
-        currentNode = currentNode.nextNode
+    let currentNode = this.table[index]
+    if (currentNode) {
+      //if key exist, simply update the value
+      if (this.has(key)) {
+        // loop through to find match and update value
+        while (!currentNode.hasOwnProperty(key)) {
+          currentNode = currentNode.nextNode
+        } currentNode[key] =value
+      } else { 
+        //else we go through loop and insert at the end of same index
+        while (currentNode.nextNode!==null) {
+          currentNode = currentNode.nextNode
+        }
+        currentNode.nextNode = new Node (key, value)
       }
-      //if keys match, update value
-      if (Object.keys(currentNode)[0]===key) {
-        currentNode[key] = value
-      } 
-      //else we are at end of linkedList, add new node here
-      else {
-        currentNode.nextNode = new Node(key, value)
-      }  
     } else {
-      this.table[index] = new Node(key, value)
+      //else treat as new value to be inserted
+      this.table[index] = new Node (key, value)
     }
   }
 
   get(key) {
     let index = this.hash(key)
-    if (this.table[index]) {
-      return this.table[index]
+    let currentNode = this.table[index]
+    if (currentNode) {
+      if (this.has(key)) {
+        while (!currentNode.hasOwnProperty(key)) {
+          currentNode = currentNode.nextNode
+        } 
+        return currentNode[key]
+      } else {
+        return null
+      }
     } else {
       return null
     }
@@ -48,8 +57,17 @@ class HashMap{
 
   has(key) {
     let index = this.hash(key)
-    if (this.table[index]) {
-      return true
+    let currentNode = this.table[index]
+
+    if (currentNode) {
+      while (!currentNode.hasOwnProperty(key) && currentNode.nextNode!==null) {
+        currentNode = currentNode.nextNode
+      }
+      if (currentNode.hasOwnProperty(key)) {
+        return true
+      } else {
+        return false
+      }
     } else {
       return false
     }
@@ -57,16 +75,43 @@ class HashMap{
 
   remove(key) {
     let index = this.hash(key)
-    if (this.table[index]) {
-      delete this.table[index]
-      return true
+    let currentNode = this.table[index]
+    let prevNode = null
+
+    if (currentNode) {
+      if (this.has(key)) {
+        while (!currentNode.hasOwnProperty(key)) {
+          prevNode = currentNode
+          currentNode = currentNode.nextNode
+        } if (prevNode===null) {
+          this.table[index] = currentNode.nextNode
+          return true
+        } else {
+          prevNode.nextNode = currentNode.nextNode
+          return true
+        }
+      } else {
+        return false
+      }
     } else {
       return false
     }
   }
 
   length() {
-    return this.table.length
+    let length = 0
+    if (this.table) {
+
+      this.table.forEach(bucket => {
+        length++
+        while (bucket.nextNode!==null) {
+          length++
+          bucket = bucket.nextNode
+        }
+      })
+      return length
+    }
+    
   }
 
   clear() {
@@ -80,19 +125,33 @@ class Node{
     this.nextNode = nextNode
   }
 }
+
 let hashmap = new HashMap()
 
-hashmap.set('carlos', "value1")
-hashmap.set('carla', "n1")
-hashmap.set('carla', "n2")
-hashmap.set('carla', "newesr")
+hashmap.set('a', "a1")
+hashmap.set('b', "b1")
+hashmap.set('c', "c1")
+hashmap.set('d', "d1")
+hashmap.set('e', "e1")
+hashmap.set('f', "f1")
+hashmap.set('g', "g1")
+hashmap.set('h', "h1")
+hashmap.set('i', "i1")
+hashmap.set('j', "j1")
+hashmap.set('k', "k1")
+hashmap.set('l', "l1")
+hashmap.set('m', "m1")
+hashmap.set('n', "n1")
+hashmap.set('o', "o1")
+hashmap.set('p', "p1")
+hashmap.set('q', "q1")
+hashmap.set('q', "q2")
 
-hashmap.set('jon', "j1")
-hashmap.set('jon', "j2")
-hashmap.set('carla', "n3")
-hashmap.set('jon', "j3")
-hashmap.set('carlos', "c3")
+
+// hashmap.remove('jon')
+// hashmap.remove('carsol')
+// console.log(hashmap.get('carsol'))
+console.log(hashmap.length())
+hashmap.clear()
 
 console.log(hashmap.table)
-
-
