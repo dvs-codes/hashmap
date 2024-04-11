@@ -119,6 +119,68 @@ class HashMap{
   clear() {
     this.table = []
   }
+
+  keys() {
+    let keysArray = []
+    if (this.table) {
+      this.table.forEach(bucket => {
+        if (bucket) {
+          let newkey = Object.keys(bucket)[0]
+          keysArray.push(newkey)
+          while (bucket.nextNode!==null) {
+            bucket = bucket.nextNode
+            let newkey = Object.keys(bucket)[0]
+            keysArray.push(newkey)
+          }
+        }
+      })
+      return keysArray
+    }
+  }
+
+  values() {
+    let valueArray = []
+    if (this.table) {
+      this.table.forEach(bucket => {
+        if (bucket) {
+          let newValue = Object.values(bucket)[0]
+          valueArray.push(newValue)
+          while (bucket.nextNode!==null) {
+            bucket = bucket.nextNode
+            let newValue = Object.values(bucket)[0]
+            valueArray.push(newValue)
+          }
+        }
+      })
+      return valueArray
+    }
+  }
+
+  entries() {
+    let entriesArray = []
+    if (this.table) {
+      this.table.forEach(bucket => {
+        if (bucket) {
+          let pairArray = []
+          let newValue = Object.values(bucket)[0]
+          let newkey = Object.keys(bucket)[0]
+          pairArray.push(newkey)
+          pairArray.push(newValue)
+          entriesArray.push(pairArray)
+          while (bucket.nextNode!==null) {
+            bucket = bucket.nextNode
+            let pairArray = []
+            let newValue = Object.values(bucket)[0]
+            let newkey = Object.keys(bucket)[0]
+            pairArray.push(newkey)
+            pairArray.push(newValue)
+            entriesArray.push(pairArray)
+          }
+        }
+      })
+      return entriesArray
+    }
+  }
 }
 
 class Node{
@@ -130,31 +192,20 @@ class Node{
 
 let hashmap = new HashMap()
 
-hashmap.set('a', "a1")
-hashmap.set('b', "b1")
-hashmap.set('c', "c1")
-hashmap.set('d', "d1")
-hashmap.set('e', "e1")
-hashmap.set('f', "f1")
-hashmap.set('g', "g1")
-hashmap.set('h', "h1")
-hashmap.set('i', "i1")
-hashmap.set('j', "j1")
-hashmap.set('k', "k1")
-hashmap.set('l', "l1")
-hashmap.set('m', "m1")
-hashmap.set('n', "n1")
-hashmap.set('o', "o1")
-hashmap.set('p', "p1")
-hashmap.set('q', "q1")
-hashmap.set('q', "q2")
+hashmap.set('carlos', "a1")
+hashmap.set('carla', "b1")
+hashmap.set('jon', "b2")
+hashmap.set('jon', "j2")
+hashmap.set('carsol', "c3")
+
 
 
 // hashmap.remove('jon')
-// hashmap.remove('carsol')
+hashmap.remove('carsol')
 // console.log(hashmap.get('carsol'))
 console.log(hashmap.length())
-console.log(hashmap.remove('q'))
-console.log(hashmap.length())
+console.log(hashmap.keys())
+console.log(hashmap.values())
+console.log(hashmap.entries())
 
 console.log(hashmap.table)
