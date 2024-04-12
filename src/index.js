@@ -19,17 +19,12 @@ class HashMap{
     let index = this.hash(key)
     let currentNode = this.table[index]
     if (currentNode) {
-      //if key exist, simply update the value
-      if (this.has(key)) {
-        // loop through to find match and update value
-        while (!currentNode.hasOwnProperty(key)) {
-          currentNode = currentNode.nextNode
-        } currentNode[key] =value
-      } else { 
-        //else we go through loop and insert at the end of same index
-        while (currentNode.nextNode!==null) {
-          currentNode = currentNode.nextNode
-        }
+      while (currentNode.key!==key && currentNode.nextNode!==null) {
+        currentNode = currentNode.nextNode
+      } 
+      if (currentNode.key===key) {
+        currentNode.value = value
+      } else {
         currentNode.nextNode = new Node (key, value)
       }
     } else {
@@ -42,11 +37,10 @@ class HashMap{
     let index = this.hash(key)
     let currentNode = this.table[index]
     if (currentNode) {
-      if (this.has(key)) {
-        while (!currentNode.hasOwnProperty(key)) {
-          currentNode = currentNode.nextNode
-        } 
-        return currentNode[key]
+      while (currentNode.key!==key && currentNode.nextNode!==null) {
+        currentNode = currentNode.nextNode
+      } if (currentNode.key===key) {
+        return currentNode.value
       } else {
         return null
       }
@@ -60,10 +54,10 @@ class HashMap{
     let currentNode = this.table[index]
 
     if (currentNode) {
-      while (!currentNode.hasOwnProperty(key) && currentNode.nextNode!==null) {
+      while (currentNode.key!==key && currentNode.nextNode!==null) {
         currentNode = currentNode.nextNode
       }
-      if (currentNode.hasOwnProperty(key)) {
+      if (currentNode.key===key) {
         return true
       } else {
         return false
@@ -79,8 +73,7 @@ class HashMap{
     let prevNode = null
 
     if (currentNode) {
-      if (this.has(key)) {
-        while (!currentNode.hasOwnProperty(key)) {
+        while (currentNode.key!==key && currentNode.nextNode!==null) {
           prevNode = currentNode
           currentNode = currentNode.nextNode
         } if (prevNode===null) {
@@ -90,9 +83,6 @@ class HashMap{
           prevNode.nextNode = currentNode.nextNode
           return true
         }
-      } else {
-        return false
-      }
     } else {
       return false
     }
@@ -125,12 +115,10 @@ class HashMap{
     if (this.table) {
       this.table.forEach(bucket => {
         if (bucket) {
-          let newkey = Object.keys(bucket)[0]
-          keysArray.push(newkey)
+          keysArray.push(bucket.key)
           while (bucket.nextNode!==null) {
             bucket = bucket.nextNode
-            let newkey = Object.keys(bucket)[0]
-            keysArray.push(newkey)
+            keysArray.push(bucket.key)
           }
         }
       })
@@ -143,12 +131,10 @@ class HashMap{
     if (this.table) {
       this.table.forEach(bucket => {
         if (bucket) {
-          let newValue = Object.values(bucket)[0]
-          valueArray.push(newValue)
+          valueArray.push(bucket.value)
           while (bucket.nextNode!==null) {
             bucket = bucket.nextNode
-            let newValue = Object.values(bucket)[0]
-            valueArray.push(newValue)
+            valueArray.push(bucket.value)
           }
         }
       })
@@ -161,20 +147,10 @@ class HashMap{
     if (this.table) {
       this.table.forEach(bucket => {
         if (bucket) {
-          let pairArray = []
-          let newValue = Object.values(bucket)[0]
-          let newkey = Object.keys(bucket)[0]
-          pairArray.push(newkey)
-          pairArray.push(newValue)
-          entriesArray.push(pairArray)
+          entriesArray.push([bucket.key, bucket.value])
           while (bucket.nextNode!==null) {
             bucket = bucket.nextNode
-            let pairArray = []
-            let newValue = Object.values(bucket)[0]
-            let newkey = Object.keys(bucket)[0]
-            pairArray.push(newkey)
-            pairArray.push(newValue)
-            entriesArray.push(pairArray)
+            entriesArray.push([bucket.key, bucket.value])
           }
         }
       })
@@ -185,27 +161,26 @@ class HashMap{
 
 class Node{
   constructor(key,value, nextNode=null) {
-    this[key] = value
+    this.key = key
+    this.value = value
     this.nextNode = nextNode
   }
 }
 
 let hashmap = new HashMap()
 
-hashmap.set('carlos', "a1")
-hashmap.set('carla', "b1")
-hashmap.set('jon', "b2")
-hashmap.set('jon', "j2")
-hashmap.set('carsol', "c3")
-
-
-
-// hashmap.remove('jon')
-hashmap.remove('carsol')
-// console.log(hashmap.get('carsol'))
-console.log(hashmap.length())
+hashmap.set('dvs', "a1")
+hashmap.set('baiju', "b1")
+hashmap.set('prajesh', "b2")
+hashmap.set('carla', "j2")
+hashmap.set('jon', "c3")
+hashmap.set('dvs', "c3")
+hashmap.set('a', "a1")
+hashmap.set('carla', "asdasdasd")
 console.log(hashmap.keys())
 console.log(hashmap.values())
 console.log(hashmap.entries())
+// console.log(hashmap.has('baisju'))
+
 
 console.log(hashmap.table)
