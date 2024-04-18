@@ -1,18 +1,48 @@
 class HashMap{
   constructor() {
     this.table = []
+    this.capacity =4
+    this.loadFactor = 0.75
+    this.primeNumber = 31
   }
 
   hash(key) {
     let hashCode = 0
-    let hashSize = 16
-    const primeNumber = 31
+
+    // case for when loadfactor is reached
+    if (this.length()/this.capacity> this.loadFactor) {
+      this.resize()
+    }
+
     for (let i=0; i< key.length; i++) {
-      hashCode = primeNumber* hashCode + key.charCodeAt(i)
-      hashCode %= hashSize
+      hashCode = this.primeNumber* hashCode + key.charCodeAt(i)
+      hashCode %= this.capacity
     }
 
     return hashCode 
+  }
+
+  resize() {
+    const tempTable = this.table.slice()
+    this.clear()
+    this.capacity *=2
+
+    tempTable.forEach(bucket => {
+      let hashCode = 0
+      if (bucket) {
+        while (bucket.nextNode !==null) {
+          const tempNode = new Node ( bucket.key, bucket.value)
+          hashCode =0
+          for (let i=0; i< bucket.key.length; i++) {
+            hashCode = this.primeNumber* hashCode + bucket.key.charCodeAt(i)
+            hashCode %= this.capacity
+          }
+          this.table[hashCode] = tempNode
+          bucket = bucket.nextNode
+        } 
+        this.set(bucket.key, bucket.value)
+      }
+    })
   }
 
   set(key, value) {
@@ -177,10 +207,8 @@ hashmap.set('jon', "c3")
 hashmap.set('dvs', "c3")
 hashmap.set('a', "a1")
 hashmap.set('carla', "asdasdasd")
-console.log(hashmap.keys())
-console.log(hashmap.values())
-console.log(hashmap.entries())
 // console.log(hashmap.has('baisju'))
 
-
+hashmap.remove('jon')
 console.log(hashmap.table)
+console.log(hashmap.entries())
